@@ -1,0 +1,55 @@
+﻿@{
+    ViewData["Title"] = "Contact";
+}
+
+<div>
+    <h1>Welcome to Activity Tracker</h1>
+    <table>
+        <tr>
+            <th>Activity</th>
+            <th>Date and Time</th>
+            <th>Duration</th>
+            <th>Event Coordinator</th>
+            <th>Number of Participants</th>
+            <th>Action</th>
+        </tr>
+        @foreach(var activity in @ViewBag.allActivities){
+            <tr>
+                <td><a asp-area="" asp-controller="Activity" asp-action="ActivityInfo" asp-route-id="@activity.ActivityID">@activity.Title</a></td>
+                <td>@activity.ActivityDate.ToString("dd/MM/yyyy") at @activity.Time</td>
+                <td>@activity.Duration</td>
+                <td>@activity.User.FirstName</td>
+                <td>@activity.UserActivity.Count</td>
+                
+                
+                @if(@activity.User == @ViewBag.user){
+                    <td><a asp-area="" asp-controller="Activity" asp-action="Delete" asp-route-id="@activity.ActivityID">Delete</a></td>
+                }
+                else{ 
+                    bool contains = false;
+                    int registryId = 0;
+                    
+                    @foreach(var uact in @ViewBag.userActivity){
+                        @if(uact.Activity == @activity && @ViewBag.user == uact.User){
+                            contains = true;
+                            registryId = uact.UserActivityID;
+                            break;
+                        }
+                    }
+
+                    @if(contains){
+                        <td><a asp-area="" asp-controller="Activity" asp-action="Leave" asp-route-id="@registryId">Leave</a></td>
+                    }
+                    else{
+                        <td><a asp-area="" asp-controller="Activity" asp-action="Join" asp-route-id="@activity.ActivityID">Join</a></td>
+                    }
+                }
+                
+
+            </tr>
+        }
+    </table>
+    
+    <br>
+    <a asp-area="" asp-controller="Activity" asp-action="AddNewActivity"><button>Add a Activity</button></a>
+</div>

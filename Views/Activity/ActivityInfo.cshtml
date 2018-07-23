@@ -1,0 +1,39 @@
+<div class="top-spacing">
+    <h1>@ViewBag.activity.Title</h1>
+
+    <h3>Coordinator: @ViewBag.activity.User.FirstName</h3>
+
+    <h3>Description</h3>
+    <p>@ViewBag.activity.Description</p>
+    <h3>Participants:</h3>
+    @foreach(var participant in @ViewBag.allUserActivities){
+        <h4>@participant.User.FirstName;</h4>
+    }
+
+
+    @if(@ViewBag.activity.User == @ViewBag.user){
+        <a asp-area="" asp-controller="Activity" asp-action="Delete" asp-route-id="@ViewBag.activity.ActivityID"><button>Delete</button></a>
+    }
+    else{ 
+        bool contains = false;
+        int registryId = 0;
+        
+        @foreach(var uact in @ViewBag.allUserActivities){
+            @if(uact.Activity == @ViewBag.activity && @ViewBag.user == uact.User){
+                contains = true;
+                registryId = uact.UserActivityID;
+                break;
+            }
+        }
+
+        @if(contains){
+            <a asp-area="" asp-controller="Activity" asp-action="Leave" asp-route-id="@registryId"><button>Leave</button></a>
+        }
+        else{
+            <a asp-area="" asp-controller="Activity" asp-action="Join" asp-route-id="@ViewBag.activity.ActivityID"><button>Join</button></a>
+        }
+    }
+    
+  
+
+</div>

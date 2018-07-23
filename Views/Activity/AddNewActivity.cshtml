@@ -1,0 +1,37 @@
+ <div class="top-spacing">
+    @model MyActivity
+    <form asp-action="CreateActivity" asp-controller="Activity" method="POST">
+        <span asp-validation-for="Title"></span>
+        <label asp-for="Title">Title:</label>
+        <input type="text" asp-for="Title">
+        <br>
+
+        <span asp-validation-for="Time"></span>
+        <label asp-for="Time">Time:</label>
+        <input type="time" asp-for="Time">
+        <br>
+
+        <span asp-validation-for="ActivityDate"></span>
+        <span>@ViewBag.error</span>
+        <label asp-for="ActivityDate">Activity Date:</label>
+        <input type="date" asp-for="ActivityDate">
+        <br>
+
+        <span asp-validation-for="Duration"></span>
+        <label asp-for="Duration">Duration:</label>
+        <input type="number" asp-for="Duration">
+        <select name="timetype">
+            <option value="Days">Days</option>
+            <option value="Hours">Hours</option>
+            <option value="Minutes">Minutes</option>
+        </select>
+        <br>
+            
+        <span asp-validation-for="Description"></span>
+        <label asp-for="Description">Description:</label>
+        <textarea asp-for="Description"></textarea>
+        <br>
+
+        <input type="submit" value="Add Activity">
+    </form>
+</div>
